@@ -6,6 +6,8 @@ const ejsMate = require("ejs-mate");
 const Task = require("./models/task");
 const methodOverride = require('method-override');
 const { assert } = require("console");
+const ExpressError = require("./ExpressError");
+const { wrapAsync } = require("./wrapAsync");
 
 main()
 .then(()=>{
@@ -26,14 +28,14 @@ app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"/views"))
 
 //index.route
-app.get("/tasks",async (req,res)=>{
+app.get("/tasks",wrapAsync(async (req,res)=>{
   await Task.find({}).then((tasks)=>{
     res.render("pages/index.ejs",{tasks})
   })
-})
+}))
 
 //add new task
-app.post("/tasks/new",async (req,res)=>{
+app.post("/tasks/new",wrapAsync(async (req,res)=>{
   const task = new Task(req.body.task)
   await task.save().then(()=>{
     res.redirect("/tasks")
@@ -41,10 +43,10 @@ app.post("/tasks/new",async (req,res)=>{
   .catch((e)=>{
     console.log(e)
   })
-})
+}))
 
 //delete task
-app.delete("/tasks/delete/:id",async (req,res)=>{
+app.delete("/tasks/delete/:id",wrapAsync(async (req,res)=>{
   let { id } = req.params;
   await Task.findByIdAndDelete(id).then(()=>{
     res.redirect("/tasks")
@@ -52,22 +54,30 @@ app.delete("/tasks/delete/:id",async (req,res)=>{
   .catch((e)=>{
     console.log(e)
   }) 
-})
+}))
 
 //edit
-app.get("/tasks/edit/:id",async (req,res)=>{
+app.get("/tasks/edit/:id",wrapAsync(async (req,res)=>{
   let { id } = req.params;
   let task = await Task.findById(id);
   res.render("pages/edit.ejs",{ task });
-})
+}))
 
-app.patch("/tasks/:id",async (req,res)=>{
+app.patch("/tasks/:id",wrapAsync(async (req,res)=>{
   let { id } = req.params;
   await Task.findByIdAndUpdate(id,{...req.body.task}).then((task)=>{
     res.redirect("/tasks");
   })
-})
+}))
 
+app.get("*",(req,res)=>{
+  throw new ExpressError(404,"PAGE NOT FOUND");
+})
 app.listen(3000,()=>{
     console.log("Server is listening to port ", 3000);
+})
+
+app.use((err,req,res,next)=>{
+  let { status=500,message="SOME ERROR OCCURED" } = err;
+  res.status(status).send(message);
 })
