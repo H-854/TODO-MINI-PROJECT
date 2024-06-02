@@ -1,0 +1,11 @@
+{
+  "name": "login-page",
+  "version": "1.0.0",
+  "description": "This is a login page for any website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "H-854",
+  "license": "ISC"
+}
