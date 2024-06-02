@@ -1,33 +1,43 @@
 const taskData = [
     {
-        "task": "Buy groceries"
+        "task": "Complete project report",
+        "description": "Finalize and submit the project report."
     },
     {
-        "task": "Walk the dog"
+        "task": "Grocery shopping",
+        "description": "Buy groceries for the week."
     },
     {
-        "task": "Finish the report"
+        "task": "Doctor appointment",
+        "description": "Visit the doctor for a regular checkup."
     },
     {
-        "task": "Call the bank"
+        "task": "Team meeting",
+        "description": "Attend the weekly team meeting."
     },
     {
-        "task": "Attend meeting with team"
+        "task": "Exercise",
+        "description": "Go for a run in the park."
     },
     {
-        "task": "Work out"
+        "task": "Call plumber",
+        "description": "Schedule a time for plumbing repairs."
     },
     {
-        "task": "Plan vacation itinerary"
+        "task": "Finish reading book",
+        "description": "Complete the last two chapters."
     },
     {
-        "task": "Read a book"
+        "task": "Client presentation",
+        "description": "Prepare and deliver the client presentation."
     },
     {
-        "task": "Clean the house"
+        "task": "Car maintenance",
+        "description": "Take the car for its scheduled maintenance."
     },
     {
-        "task": "Visit the doctor"
+        "task": "Study for exam",
+        "description": "Review all chapters for the upcoming exam."
     }
 ]
 

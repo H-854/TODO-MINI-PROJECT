@@ -1,0 +1,33 @@
+<%-layout("/layouts/boilerplate.ejs")%>
+<div>
+    <h2>Add Task</h2>
+    <form action="/tasks/new" method="post">
+        <input type="text" placeholder="Enter task" name="task[task]">
+        <br><br>
+        <input type="text" placeholder="Enter Description" name="task[description]">
+        <br><br>
+        <button>Add</button>
+    </form>
+</div>
+<h3>All tasks</h3>
+<ul>
+    <%for(task of tasks){%>
+        <li>
+            <div style="border: 1px solid black; margin-top: 1rem;">
+                <h4><%=task.task%>
+                    <form action="/tasks/delete/<%=task._id%>?_method=DELETE" method="post">
+                        <button>X</button>
+                    </form>
+                </h4>
+                <ul>
+                    <li><b>Description</b><p><%=task.description%></p></li>
+                    <li><b>Time</b><p><%=task.date.toString().split(" ")[4]%></p></li>
+                    <li><b>Date</b><p><%=task.date.toString().split(" ").slice(0,4).join(" ")%></p></li>
+                </ul>
+                <form action="/tasks/edit/<%=task._id%>">
+                    <button>Edit</button>
+                </form>
+            </div>
+        </li>
+    <%}%>
+</ul>
