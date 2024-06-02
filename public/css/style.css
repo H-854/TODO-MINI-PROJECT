@@ -1,0 +1,21 @@
+body{
+    background-color: #1B2430;
+    color: #FFFFFF;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+.inp{
+    width: 50%;
+}
+.textA{
+    height: 3rem;
+}
+.text{
+    margin-left: 2rem !important;
+}
+.task{
+    border-radius: 1rem;
+}

@@ -34,7 +34,6 @@ app.get("/tasks",async (req,res)=>{
 
 //add new task
 app.post("/tasks/new",async (req,res)=>{
-  res.send("added")
   const task = new Task(req.body.task)
   await task.save().then(()=>{
     res.redirect("/tasks")

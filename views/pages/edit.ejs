@@ -1,7 +1,0 @@
-<%-layout("/layouts/boilerplate.ejs")%>
-<form action="/tasks/<%=task._id%>?_method=PATCH" method="post">
-    <h2>Edit</h2><br><br>
-    <input type="text" value="<%=task.task%>" name="task[task]"><br><br>
-    <textarea cols="40" rows="5" name="task[description]"><%=task.description%></textarea><br><br>
-    <button>Save</button>
-</form>
