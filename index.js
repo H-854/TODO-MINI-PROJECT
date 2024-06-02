@@ -3,11 +3,10 @@ const app = express()
 const path = require("path");
 const mongoose = require('mongoose');
 const ejsMate = require("ejs-mate");
-const Task = require("./models/task");
+const taskRouter = require("./routes/task");
 const methodOverride = require('method-override');
 const { assert } = require("console");
 const ExpressError = require("./ExpressError");
-const { wrapAsync } = require("./wrapAsync");
 
 main()
 .then(()=>{
@@ -18,57 +17,18 @@ main()
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/userLogin');
 }
+
+
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'));
-
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"/views"))
 
-//index.route
-app.get("/tasks",wrapAsync(async (req,res)=>{
-  await Task.find({}).then((tasks)=>{
-    res.render("pages/index.ejs",{tasks})
-  })
-}))
 
-//add new task
-app.post("/tasks/new",wrapAsync(async (req,res)=>{
-  const task = new Task(req.body.task)
-  await task.save().then(()=>{
-    res.redirect("/tasks")
-  })
-  .catch((e)=>{
-    console.log(e)
-  })
-}))
-
-//delete task
-app.delete("/tasks/delete/:id",wrapAsync(async (req,res)=>{
-  let { id } = req.params;
-  await Task.findByIdAndDelete(id).then(()=>{
-    res.redirect("/tasks")
-  })
-  .catch((e)=>{
-    console.log(e)
-  }) 
-}))
-
-//edit
-app.get("/tasks/edit/:id",wrapAsync(async (req,res)=>{
-  let { id } = req.params;
-  let task = await Task.findById(id);
-  res.render("pages/edit.ejs",{ task });
-}))
-
-app.patch("/tasks/:id",wrapAsync(async (req,res)=>{
-  let { id } = req.params;
-  await Task.findByIdAndUpdate(id,{...req.body.task}).then((task)=>{
-    res.redirect("/tasks");
-  })
-}))
+app.use("/tasks",taskRouter)
 
 app.get("*",(req,res)=>{
   throw new ExpressError(404,"PAGE NOT FOUND");

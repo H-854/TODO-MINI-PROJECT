@@ -2,9 +2,12 @@
 
 <h2 class="m-3 text">Add Task</h2>
 <div class="container-fluid">
-    <form action="/tasks/new" method="post">
+    <form action="/tasks/new" method="post" class="needs-validation" novalidate>
         <label for="task" class="form-label offset-3">Task : </label>
-        <input type="text" placeholder="Enter task" name="task[task]" class="form-control inp offset-3 mb-3" id="task"> 
+        <input type="text" placeholder="Enter task" name="task[task]" class="form-control inp offset-3 mb-3" id="task" required> 
+        <div class="invalid-feedback offset-3 mb-3">
+            Field required
+        </div>
         <button class="btn btn-outline-info offset-3">Add</button>
     </form>
 </div>
