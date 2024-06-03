@@ -1,4 +1,4 @@
-const taskData = [
+let taskData = [
     {
         "task": "Complete project report",
     },

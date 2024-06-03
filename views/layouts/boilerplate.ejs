@@ -9,6 +9,23 @@
 </head>
 <body>
     <div>
+        <nav class="navbar bg-body-tertiary" style="background-color: #1B2430 !important;">
+            <form class="container-fluid justify-content-start">
+                <%if(!currUser){%>
+                    <a class="btn btn-outline-info mt-3 ms-auto me-2" href="/signup">Signup</a>
+                    <a class="btn btn-outline-info me-2 mt-3" href="/login">Login</a>
+                <%}%>
+                <%if(currUser){%>
+                    <a class="btn btn-outline-info mt-3 ms-auto" href="/logout">Logout</a>
+                <%}%>
+            </form>
+        </nav>
+        <%if(success!==[]){%>
+            <h4 class="text m-3" style="text-align: center;"><%=success%></h4>    
+        <%}%>
+        <%if(failure!==[]){%>
+            <h4 class="text m-3" style="text-align: center;"><%=failure%></h4>    
+        <%}%>
         <%-body%>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Task = require("../models/task");
-const taskData = require("./data");
+let taskData = require("./data");
 
 main()
 .then(()=>{
@@ -14,6 +14,7 @@ async function main() {
 
 const insertData = async ()=>{
     await Task.deleteMany();
+    taskData = taskData.map((el)=>({...el,user: '665d95b32f69144060f71329'}))
     await Task.insertMany(taskData);
     console.log("Data added");
 }

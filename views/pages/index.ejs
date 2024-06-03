@@ -1,5 +1,5 @@
 <%-layout("/layouts/boilerplate.ejs")%>
-
+<h1 class="text m-3" style="text-align: center;">TO-DO APP</h1>
 <h2 class="m-3 text">Add Task</h2>
 <div class="container-fluid">
     <form action="/tasks/new" method="post" class="needs-validation" novalidate>
@@ -12,13 +12,16 @@
     </form>
 </div>
 <h3 class="m-3 text">All tasks</h3>
+
 <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1 offset-2 me-5">
     <%for(task of tasks){%>
+        <%if(currUser && currUser._id.equals(req.user._id)){%>
         <div class="col-4 m-3 py-2 task" style="border: 1px solid aqua;">
             <p class="m-2"><%=task.task%></p>
             <form action="/tasks/delete/<%=task._id%>?_method=DELETE" method="post">
                 <button class="btn btn-outline-info btn-sm ms-2" style="border-radius: 0.5rem;" >X</button>
             </form>
         </div>
+        <%}%>
     <%}%>
 </div>
