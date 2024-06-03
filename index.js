@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'));
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"/views"))
-mongoose.set('strictPopulate', false);
+// mongoose.set('strictPopulate', false);
 
 app.use(session({
   secret: 'keyboardSecret',
@@ -49,7 +49,6 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()))
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -63,8 +62,9 @@ app.use((req,res,next)=>{
 app.use("/tasks",taskRouter)
 app.use("/",userRouter);
 
-app.get("*",(req,res)=>{
-  throw new ExpressError(404,"PAGE NOT FOUND");
+//if req do not match 
+app.all("*",(req,res,next)=>{
+  next(new ExpressError(404,"Page not found"));
 })
 
 app.listen(3000,()=>{

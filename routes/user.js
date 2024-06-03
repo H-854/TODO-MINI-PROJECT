@@ -17,7 +17,7 @@ router.post("/signup",wrapAsync(async (req,res)=>{
         const registeredUser = await User.register(newUser,password);
         req.login(registeredUser,(err)=>{
             if(err){
-                next(err)
+                return next(err)
             }
             req.flash("success","You have been successfully registered");
             res.redirect("/tasks");
@@ -32,16 +32,19 @@ router.post("/signup",wrapAsync(async (req,res)=>{
 router.get("/login",(req,res)=>{
     res.render("users/login.ejs")
 })
-router.post("/login",passport.authenticate('local',{failureRedirect: "/login",failureFlash: true}),wrapAsync(async (req,res)=>{
-    req.flash("success","You are logged in successfully")
+router.post("/login",passport.authenticate('local',{failureRedirect: "/login",failureFlash: { type: 'failure', message: "Seems like You don't have an account" }}),wrapAsync(async (req,res)=>{
+    req.flash("success","You are logged in successfully");
     res.redirect("/tasks");
 }))
 
-router.get("/logout",(req,res,next)=>{
-    req.logout((err)=>{
-        return next(err);
-    })
-    req.flash("success","You are successfully logged out");
-    res.render("users/logout.ejs");
-})
+router.get("/logout", (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        req.flash("success", "You are successfully logged out");
+        res.render("users/logout.ejs");
+    });
+});
+
 module.exports = router;

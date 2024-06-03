@@ -15,7 +15,7 @@
 
 <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1 offset-2 me-5">
     <%for(task of tasks){%>
-        <%if(currUser && currUser._id.equals(req.user._id)){%>
+        <%if(currUser && currUser._id.equals(task.user._id)){%>
         <div class="col-4 m-3 py-2 task" style="border: 1px solid aqua;">
             <p class="m-2"><%=task.task%></p>
             <form action="/tasks/delete/<%=task._id%>?_method=DELETE" method="post">
