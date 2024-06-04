@@ -17,7 +17,7 @@ const flash = require('connect-flash');
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user");
-
+const MongoStore = require('connect-mongo')
 
 main()
 .then(()=>{
@@ -38,7 +38,21 @@ app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"/views"))
 // mongoose.set('strictPopulate', false);
 
+
+const store = MongoStore.create({
+  mongoUrl: process.env.ATLAS_DB_URL,
+  crypto: {
+    secret: process.env.SECRET
+  },
+  touchAfter: 24*3600
+})
+
+store.on("error",()=>{
+  throw new ExpressError(404,"ERROR IN MONGO SESSION STORE")
+})
+
 app.use(session({
+  store: store,
   secret: 'keyboardSecret',
   resave: false,
   saveUninitialized: true,
