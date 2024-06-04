@@ -4,6 +4,7 @@ const User = require("../models/user")
 const { wrapAsync } = require("../wrapAsync");
 const passport = require("passport");
 
+
 router.get("/signup",(req,res)=>{
     res.render("users/signup.ejs")
 })

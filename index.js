@@ -1,3 +1,6 @@
+if(process.env.NODE_ENV != "production"){
+  require('dotenv').config();
+}
 const express = require("express");
 const app = express()
 const path = require("path");
@@ -15,6 +18,7 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user");
 
+
 main()
 .then(()=>{
     console.log("connection established");
@@ -22,9 +26,8 @@ main()
 .catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/userLogin');
+  await mongoose.connect(process.env.ATLAS_DB_URL);
 }
-
 
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
@@ -45,6 +48,7 @@ app.use(session({
     httpOnly: true
    }
 }))
+
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());

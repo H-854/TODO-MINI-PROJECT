@@ -4,7 +4,7 @@ const { wrapAsync } = require("../wrapAsync");
 const Task = require("../models/task");
 const { isLoggedIn } = require("../middleware");
 
-router.get("/",wrapAsync(async (req,res)=>{
+router.get("/",isLoggedIn,wrapAsync(async (req,res)=>{
     await Task.find({}).populate("user").then((tasks)=>{
       res.render("pages/index.ejs",{tasks})
     })
