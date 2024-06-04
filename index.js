@@ -79,7 +79,9 @@ app.use((req,res,next)=>{
 
 app.use("/tasks",taskRouter)
 app.use("/",userRouter);
-
+app.get("/",(req,res)=>{
+  res.redirect("/tasks");
+})
 //if req do not match 
 app.all("*",(req,res,next)=>{
   next(new ExpressError(404,"Page not found"));
